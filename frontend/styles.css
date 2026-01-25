@@ -1,0 +1,77 @@
+/* Reset and base */
+body {
+  margin: 0;
+  font-family: 'Segoe UI', Roboto, sans-serif;
+  background-color: #f8fafc;
+  color: #1f2937;
+  line-height: 1.5;
+}
+
+.container {
+  max-width: 1200px;
+  margin: 2rem auto;
+  padding: 1rem;
+}
+
+/* Card style */
+.card {
+  background-color: #ffffff;
+  border-radius: 12px;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.05);
+  padding: 1.5rem;
+  margin-bottom: 2rem;
+  transition: transform 0.2s ease;
+}
+
+.card:hover {
+  transform: translateY(-3px);
+}
+
+/* Headings */
+h1 {
+  font-size: 2rem;
+  margin-bottom: 1rem;
+  text-align: center;
+  color: #0f172a;
+}
+
+.chart-title {
+  font-size: 1.125rem;
+  margin-bottom: 1rem;
+  color: #1e293b;
+  text-align: left;
+}
+
+/* Chart containers */
+.chart-wrapper {
+  position: relative;
+  height: 300px;
+  width: 100%;
+}
+
+@media (min-width: 768px) {
+  .chart-grid {
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    gap: 2rem;
+  }
+}
+
+/* Responsive adjustments */
+@media (max-width: 767px) {
+  .card {
+    padding: 1rem;
+  }
+}
+.page {
+  display: none;
+}
+
+.page.active {
+  display: block;
+}
+
+.nav-item.active {
+  background-color: #1e293b;
+  color: white;
+}
