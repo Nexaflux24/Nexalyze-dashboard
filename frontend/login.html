@@ -1,45 +1,115 @@
 <!DOCTYPE html>
 <html lang="en">
+<!DOCTYPE html>
+<html lang="en">
 <head>
   <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>Nexalyze Dashboard</title>
-  <!-- Tailwind CSS CDN -->
-  <link href="https://cdn.jsdelivr.net/npm/tailwindcss@2.2.19/dist/tailwind.min.css" rel="stylesheet" />
-  <!-- Chart.js CDN -->
-  <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover, user-scalable=yes, maximum-scale=5" />
+  <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+  <meta name="description" content="Login to Nexalyze Dashboard">
+  <meta name="theme-color" content="#1e40af">
+  <title>Nexalyze Login</title>
+  <link rel="preconnect" href="https://cdn.jsdelivr.net" crossorigin>
+  <link rel="dns-prefetch" href="https://cdn.jsdelivr.net">
+  <link href="https://cdn.jsdelivr.net/npm/tailwindcss@2.2.19/dist/tailwind.min.css" rel="stylesheet">
+  <style>
+    * { box-sizing: border-box; }
+    html { scroll-behavior: smooth; -webkit-tap-highlight-color: transparent; }
+    body { margin: 0; padding: 0; font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif; background: linear-gradient(135deg, #667eea 0%, #764ba2 100%); min-height: 100vh; display: flex; align-items: center; justify-content: center; -webkit-font-smoothing: antialiased; }
+    .login-container { width: 100%; height: 100%; display: flex; align-items: center; justify-content: center; padding: 1rem; }
+    .login-card { background: white; border-radius: 12px; box-shadow: 0 20px 60px rgba(0,0,0,0.3); width: 100%; max-width: 400px; padding: 2rem; animation: slideIn 0.3s ease-in-out; }
+    @keyframes slideIn { from { opacity: 0; transform: translateY(20px); } to { opacity: 1; transform: translateY(0); } }
+    .brand { text-align: center; margin-bottom: 2rem; }
+    .brand h1 { font-size: 2rem; font-weight: 700; color: #667eea; margin: 0 0 0.5rem 0; }
+    .brand p { color: #6b7280; margin: 0; font-size: 0.875rem; }
+    form { display: flex; flex-direction: column; gap: 1.5rem; }
+    .form-group { display: flex; flex-direction: column; gap: 0.5rem; }
+    label { font-weight: 500; color: #374151; font-size: 0.875rem; }
+    input { padding: 0.75rem 1rem; border: 2px solid #e5e7eb; border-radius: 8px; font-size: 1rem; font-family: inherit; transition: all 0.2s ease; }
+    input:hover { border-color: #d1d5db; }
+    input:focus { outline: none; border-color: #667eea; box-shadow: 0 0 0 3px rgba(102, 126, 234, 0.1); }
+    button { padding: 0.75rem 1rem; background: linear-gradient(135deg, #667eea 0%, #764ba2 100%); color: white; border: none; border-radius: 8px; font-size: 1rem; font-weight: 600; cursor: pointer; transition: all 0.3s ease; min-height: 44px; }
+    button:hover { transform: translateY(-2px); box-shadow: 0 10px 25px rgba(102, 126, 234, 0.3); }
+    button:active { transform: translateY(0); }
+    button:focus { outline: 2px solid white; outline-offset: 2px; }
+    .demo-note { text-align: center; font-size: 0.75rem; color: #9ca3af; margin-top: 1.5rem; }
+    @media (max-width: 640px) {
+      .login-card { padding: 1.5rem; }
+      .brand h1 { font-size: 1.75rem; }
+    }
+    @media (prefers-reduced-motion: reduce) {
+      * { animation: none !important; transition: none !important; }
+    }
+  </style>
+  <noscript>
+    <p style="padding: 20px; background: #fca5a5; color: #7f1d1d; border-radius: 8px; margin: 20px;">
+      This application requires JavaScript. Please enable it in your browser.
+    </p>
+  </noscript>
 </head>
-<body class="bg-gray-100 font-sans">
-
-  <!-- Navbar -->
-  <nav class="bg-white shadow p-4 flex justify-between items-center">
-    <h1 class="text-xl font-bold text-blue-600">Nexalyze Dashboard</h1>
-    <div>
-      <button class="bg-blue-500 text-white px-4 py-2 rounded hover:bg-blue-600">Login</button>
-    </div>
-  </nav>
-
-  <!-- Sidebar + Content -->
-  <div class="flex">
-    <!-- Sidebar -->
-    <aside class="w-64 bg-white p-6 h-screen shadow">
-      <ul>
-        <li class="mb-4 font-semibold text-gray-700">Dashboard</li>
-        <li class="mb-4 text-gray-600 hover:text-blue-500 cursor-pointer">Analytics</li>
-        <li class="mb-4 text-gray-600 hover:text-blue-500 cursor-pointer">Campaigns</li>
-        <li class="mb-4 text-gray-600 hover:text-blue-500 cursor-pointer">Settings</li>
-      </ul>
-    </aside>
-
-    <!-- Main Content -->
-    <main class="flex-1 p-6">
-      <h2 class="text-2xl font-bold mb-6 text-gray-800">Traffic Overview</h2>
-      <div class="bg-white p-4 rounded shadow">
-        <canvas id="trafficChart" class="w-full h-64"></canvas>
+<body>
+  <div class="login-container">
+    <div class="login-card">
+      <div class="brand">
+        <h1>Nexalyze</h1>
+        <p>Dashboard Login</p>
       </div>
-    </main>
+      
+      <form id="loginForm" novalidate>
+        <div class="form-group">
+          <label for="email">Email Address</label>
+          <input type="email" id="email" name="email" required autocomplete="email" placeholder="admin@nexalyze.com" aria-label="Email address">
+        </div>
+        <div class="form-group">
+          <label for="password">Password</label>
+          <input type="password" id="password" name="password" required autocomplete="current-password" placeholder="••••••••" aria-label="Password">
+        </div>
+        <button type="submit">Login</button>
+      </form>
+      <p class="demo-note">Demo: Use any email and password to continue</p>
+    </div>
   </div>
 
-  <script src="main.js" defer></script>
+  <script>
+    (function() {
+      'use strict';
+      
+      const form = document.getElementById('loginForm');
+      if (!form) return;
+
+      form.addEventListener('submit', (e) => {
+        e.preventDefault();
+        
+        const email = document.getElementById('email');
+        const password = document.getElementById('password');
+        
+        if (!email || !email.value.trim()) {
+          alert('Please enter your email');
+          email?.focus();
+          return;
+        }
+        
+        if (!password || !password.value) {
+          alert('Please enter your password');
+          password?.focus();
+          return;
+        }
+        
+        // Simulate login
+        window.location.href = 'index.html';
+      });
+
+      // Keyboard navigation
+      document.addEventListener('keydown', (e) => {
+        if (e.key === 'Enter' && document.activeElement !== document.querySelector('button[type="submit"]')) {
+          const inputs = form.querySelectorAll('input');
+          if (inputs.length && document.activeElement === inputs[inputs.length - 1]) {
+            form.dispatchEvent(new Event('submit'));
+          }
+        }
+      });
+    })();
+  </script>
 </body>
+</html>
 </html>

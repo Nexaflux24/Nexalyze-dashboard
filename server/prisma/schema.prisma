@@ -1,0 +1,105 @@
+// This is your Prisma schema file,
+// learn more about it in the docs: https://pris.ly/d/prisma-schema
+
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "postgresql"
+  url      = env("DATABASE_URL")
+}
+
+// User model for authentication
+model User {
+  id        String     @id @default(cuid())
+  email     String     @unique
+  password  String
+  firstName String?
+  lastName  String?
+  avatar    String?
+  createdAt DateTime   @default(now())
+  updatedAt DateTime   @updatedAt
+  
+  // Relations
+  workspaces Workspace[]
+  refreshTokens RefreshToken[]
+  
+  @@index([email])
+}
+
+// Refresh tokens for JWT rotation
+model RefreshToken {
+  id        String   @id @default(cuid())
+  token     String   @unique
+  userId    String
+  user      User     @relation(fields: [userId], references: [id], onDelete: Cascade)
+  expiresAt DateTime
+  createdAt DateTime @default(now())
+  
+  @@index([userId])
+}
+
+// Workspace (tenant for multi-tenant support)
+model Workspace {
+  id        String   @id @default(cuid())
+  name      String
+  slug      String   @unique
+  userId    String
+  user      User     @relation(fields: [userId], references: [id], onDelete: Cascade)
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+  
+  // Relations
+  analyticsData AnalyticsData[]
+  
+  @@index([userId, slug])
+}
+
+// Core Analytics Data
+model AnalyticsData {
+  id            String   @id @default(cuid())
+  workspaceId   String
+  workspace     Workspace @relation(fields: [workspaceId], references: [id], onDelete: Cascade)
+  
+  // Metrics
+  date          DateTime
+  visitors      Int      @default(0)
+  uniqueVisitors Int     @default(0)
+  pageViews     Int      @default(0)
+  bounceRate    Float    @default(0)
+  avgSessionDuration Int @default(0)
+  conversionRate Float   @default(0)
+  revenue       Float    @default(0)
+  
+  // Source tracking
+  source        String   @default("direct") // direct, organic, paid, social, referral
+  platform      String?  // google, facebook, twitter, etc
+  
+  createdAt     DateTime @default(now())
+  updatedAt     DateTime @updatedAt
+  
+  @@unique([workspaceId, date, source])
+  @@index([workspaceId, date])
+  @@index([source])
+}
+
+// Campaign tracking
+model Campaign {
+  id            String   @id @default(cuid())
+  workspaceId   String
+  name          String
+  source        String
+  startDate     DateTime
+  endDate       DateTime?
+  budget        Float?
+  spent         Float    @default(0)
+  clicks        Int      @default(0)
+  conversions   Int      @default(0)
+  revenue       Float    @default(0)
+  
+  createdAt     DateTime @default(now())
+  updatedAt     DateTime @updatedAt
+  
+  @@index([workspaceId])
+}

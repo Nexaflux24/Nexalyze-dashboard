@@ -1,0 +1,44 @@
+{
+  "name": "nexalyze-server",
+  "version": "1.0.0",
+  "description": "Nexalyze Analytics Dashboard - Backend API",
+  "main": "src/server.js",
+  "type": "module",
+  "scripts": {
+    "dev": "nodemon src/server.js",
+    "start": "node src/server.js",
+    "build": "echo 'No build step needed'",
+    "prisma:generate": "prisma generate",
+    "prisma:migrate": "prisma migrate dev",
+    "prisma:push": "prisma db push",
+    "seed": "node prisma/seed.js"
+  },
+  "keywords": [
+    "analytics",
+    "dashboard",
+    "api",
+    "express",
+    "postgresql"
+  ],
+  "author": "NexaFlux Agency",
+  "license": "MIT",
+  "dependencies": {
+    "@prisma/client": "^5.7.1",
+    "bcryptjs": "^2.4.3",
+    "cors": "^2.8.5",
+    "dotenv": "^16.3.1",
+    "express": "^4.18.2",
+    "helmet": "^7.1.0",
+    "jsonwebtoken": "^9.1.2",
+    "validator": "^13.11.0"
+  },
+  "devDependencies": {
+    "@types/express": "^4.17.21",
+    "nodemon": "^3.0.2",
+    "prisma": "^5.7.1"
+  },
+  "engines": {
+    "node": ">=18.0.0",
+    "npm": ">=9.0.0"
+  }
+}

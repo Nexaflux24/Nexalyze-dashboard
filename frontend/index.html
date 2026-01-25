@@ -2,11 +2,23 @@
 <html lang="en">
 <head>
   <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover, user-scalable=yes, maximum-scale=5" />
+  <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+  <meta name="description" content="Nexalyze Dashboard - Analytics and traffic monitoring">
+  <meta name="theme-color" content="#1e40af">
+  <meta name="apple-mobile-web-app-capable" content="yes">
+  <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+  <meta name="apple-mobile-web-app-title" content="Nexalyze">
   <title>Nexalyze Dashboard</title>
+  <link rel="preconnect" href="https://cdn.jsdelivr.net" crossorigin>
+  <link rel="dns-prefetch" href="https://cdn.jsdelivr.net">
+  <link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><text y='75' font-size='75' fill='%231e40af'>N</text></svg>">
   <link href="https://cdn.jsdelivr.net/npm/tailwindcss@2.2.19/dist/tailwind.min.css" rel="stylesheet">
-  <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/chart.js@3.9.1" defer></script>
+  <link rel="stylesheet" href="styles.css">
   <style>
+    html { scroll-behavior: smooth; }
+    body { font-size: 16px; -webkit-font-smoothing: antialiased; -moz-osx-font-smoothing: grayscale; }
     .page { display: none; }
     .page.active { display: block; }
     .nav-item.active {
@@ -14,19 +26,28 @@
       border-radius: 0.375rem;
       padding: 0.5rem;
     }
+    @media (max-width: 640px) {
+      body { font-size: 14px; }
+      .flex h-screen { flex-direction: column; height: auto; }
+    }
   </style>
+  <noscript>
+    <p style="padding: 20px; background: #fca5a5; color: #7f1d1d; border-radius: 8px; margin: 20px;">
+      This application requires JavaScript to be enabled. Please enable JavaScript in your browser settings.
+    </p>
+  </noscript>
 </head>
-<body class="bg-gray-100">
-  <div class="flex h-screen">
+<body class="bg-gray-100" role="application">
+  <div class="flex h-screen flex-col md:flex-row">
     <!-- Sidebar -->
-    <aside class="w-64 bg-blue-800 text-white p-4">
+    <aside class="w-64 md:w-64 sm:w-48 bg-blue-800 text-white p-4 overflow-y-auto flex-shrink-0">
       <h2 class="text-2xl font-bold mb-6">Nexalyze</h2>
       <nav>
         <ul>
-          <li data-page="dashboard" class="nav-item active cursor-pointer mb-2">Dashboard</li>
-          <li data-page="campaigns" class="nav-item cursor-pointer mb-2">Campaigns</li>
-          <li data-page="analytics" class="nav-item cursor-pointer mb-2">Analytics</li>
-          <li data-page="logout" class="nav-item cursor-pointer">Logout</li>
+          <li data-page="dashboard" class="nav-item active cursor-pointer mb-2 p-2 rounded hover:bg-blue-700 transition" role="button" tabindex="0">Dashboard</li>
+          <li data-page="campaigns" class="nav-item cursor-pointer mb-2 p-2 rounded hover:bg-blue-700 transition" role="button" tabindex="0">Campaigns</li>
+          <li data-page="analytics" class="nav-item cursor-pointer mb-2 p-2 rounded hover:bg-blue-700 transition" role="button" tabindex="0">Analytics</li>
+          <li data-page="logout" class="nav-item cursor-pointer p-2 rounded hover:bg-blue-700 transition" role="button" tabindex="0">Logout</li>
         </ul>
       </nav>
     </aside>
@@ -45,13 +66,13 @@
           <div class="bg-white p-4 shadow rounded h-[300px]">
             <h2 class="text-lg font-bold mb-2">Traffic Overview</h2>
             <div class="h-full">
-              <canvas id="trafficChart" class="w-full h-full"></canvas>
+              <canvas id="trafficChart" class="w-full h-full" role="img" aria-label="Traffic overview line chart"></canvas>
             </div>
           </div>
           <div class="bg-white p-4 shadow rounded h-[300px]">
             <h2 class="text-lg font-bold mb-2">Bounce Rate</h2>
             <div class="h-full">
-              <canvas id="bounceChart" class="w-full h-full"></canvas>
+              <canvas id="bounceChart" class="w-full h-full" role="img" aria-label="Bounce rate bar chart"></canvas>
             </div>
           </div>
         </div>
