@@ -11,7 +11,7 @@ function App() {
 
   useEffect(() => {
     // Check if user has token
-    const token = localStorage.getItem('accessToken')
+    const token = localStorage.getItem('token')
     setIsAuthenticated(!!token)
     setLoading(false)
   }, [])
@@ -30,9 +30,9 @@ function App() {
   return (
     <Router>
       <Routes>
-        <Route path="/login" element={!isAuthenticated ? <Login setIsAuthenticated={setIsAuthenticated} /> : <Navigate to="/dashboard" />} />
-        <Route path="/register" element={!isAuthenticated ? <Register setIsAuthenticated={setIsAuthenticated} /> : <Navigate to="/dashboard" />} />
-        <Route path="/dashboard" element={isAuthenticated ? <Dashboard setIsAuthenticated={setIsAuthenticated} /> : <Navigate to="/login" />} />
+        <Route path="/login" element={<Login />} />
+        <Route path="/register" element={<Register />} />
+        <Route path="/dashboard" element={<Dashboard />} />
         <Route path="/" element={<Navigate to={isAuthenticated ? "/dashboard" : "/login"} />} />
       </Routes>
     </Router>
