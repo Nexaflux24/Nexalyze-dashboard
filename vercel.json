@@ -1,0 +1,42 @@
+{
+  "version": 2,
+  "builds": [
+    {
+      "src": "client/package.json",
+      "use": "@vercel/static-build",
+      "config": {
+        "distDir": "dist"
+      }
+    },
+    {
+      "src": "api/index.js",
+      "use": "@vercel/node"
+    },
+    {
+      "src": "server/package.json",
+      "use": "@vercel/node",
+      "config": {
+        "zeroConfig": true
+      }
+    }
+  ],
+  "routes": [
+    {
+      "src": "/api/(.*)",
+      "dest": "/api/index.js"
+    },
+    {
+      "src": "/(.*)",
+      "dest": "/client/dist/$1"
+    },
+    {
+      "src": "/(.+)$",
+      "dest": "/client/dist/index.html"
+    }
+  ],
+  "env": {
+    "NODE_ENV": "production",
+    "CORS_ORIGIN": "@CORS_ORIGIN"
+  },
+  "envPrefix": "VERCEL_"
+}
